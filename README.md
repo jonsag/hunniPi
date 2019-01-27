@@ -1,4 +1,5 @@
-># hunniPi
+# hunniPi
+
 A tutorial and perhaps a script to get a honey pot running on Raspberry Pi
 
 Installing OS
@@ -41,6 +42,7 @@ Update
 
 Configure  
 >$ sudo raspi-config   
+
 1		Change password  
 2 N1	Change hostname  
 3 B1	Set to boot into console  
@@ -66,8 +68,10 @@ Configure sshd
 -----------------------------
 Change listening port for sshd  
 >$ sudo emacs /etc/ssh/sshd_config  
-Add/edit line so that:  
-Port 22222  
+
+Add/edit line so that:
+  
+	Port 22222  
 
 Restart ssh service  
 >$ sudo service ssh restart  
@@ -112,6 +116,7 @@ Settings which are set in cowrie.cfg will be assigned priority
 
 Now we edit the file  
 >$ emacs ./etc/cowrie.cfg  
+
 Line 29: Change hostname = srv04 to some other name  
 Line 168: Comment out auth_class = UserDB  
 Line 175-176: Remove comment from both lies, enabling random access  
@@ -137,6 +142,7 @@ Save rules
 
 Add to rc.local to autostart  
 >$ sudo emacs /etc/rc.local  
+
 Add before line 'exit 0':  
 
 	sudo su cowrie -c '/home/cowrie/cowrie/bin/cowrie start'  
@@ -209,6 +215,7 @@ MaxMind GeoLite 2 Country database setup
 
 Configuration  
 >$ emacs cowrie-logviewer.py  
+
 Line 20: log_path = '/home/cowrie/cowrie/var/log/cowrie/'  
 Line 21: dl_path = '/home/cowrie/cowrie/var/lib/cowrie/downloads/'  
 Line 22: maxmind_path = '/home/cowrie/cowrie-logviewer/maxmind/GeoLite2-Country.mmdb'  
@@ -223,6 +230,7 @@ Install mysql
 
 Setup database  
 >$ sudo mysql -u root -p  
+
 Use same password as for user root in shell  
   
 In mysql:  
@@ -232,6 +240,7 @@ In mysql:
 
 >$ cd /home/cowrie/cowrie    
 >$ sudo mysql -u cowrieuser -p cowriedb    
+
 >mysql> source ./docs/sql/mysql.sql;  
 >mysql> exit  
 
@@ -241,7 +250,8 @@ Halt cowrie
 Edit config file  
 >$ sudo su - cowrie  
 >$ emacs /home/cowrie/cowrie/etc/cowrie.cfg  
-Uncomment lines 569-5576  
+
+Uncomment lines 569-576  
 Line 570: enabled = true  
 Line 572: database = cowriedb  
 Line 573: username = cowrieuser  
@@ -272,7 +282,8 @@ Setup
 >$ sudo cp config.php.dist config.php  
 
 Configure  
->$ sudo emacs config.php  
+>$ sudo emacs config.php
+  
 Line 23: define('DB_USER', 'cowrieuser');  
 Line 24: define('DB_PASS', '<cowrie db pass>');  
 Line 25: define('DB_NAME', 'cowriedb');  
@@ -302,15 +313,17 @@ Create directory to download everything in
 Elasticsearch
 -----------------------------
 Download and install  
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.2.deb  
+>$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.2.deb  
 >$ sudo dpkg -i elasticsearch-5.5.2.deb  
 
 >$ sudo emacs /etc/elasticsearch/elasticsearch.yml  
+
 Line 17: cluster.name: hunnipi  
 Line 55: network.host: 127.0.0.1  
 Line 59: http.port: 9200  
 
 >$ sudo emacs /etc/elasticsearch/jvm.options  
+
 Line 23: -Xms200m  
 Line 24: -Xms500m  
 
@@ -332,7 +345,9 @@ Setup the JFFI code for our ARM chip
 >$ cd jffi  
 >$ sudo ant jar  
 >$ sudo cp build/jni/libjffi-1.2.so /usr/share/logstash/vendor/jruby/lib/jni/arm-Linux  
+
 (when the .so file is not generated, delete the complete jffi folder and reinstall again)  
+
 >$ cd /usr/share/logstash/vendor/jruby/lib  
 >$ sudo zip -g jruby-complete-1.7.11.jar jni/arm-Linux/libjffi-1.2.so  
 
@@ -367,6 +382,7 @@ Move and create links
 
 Check settings  
 >$ sudo emacs /opt/kibana/config/kibana.yml  
+
 Line 2: server.port: 5601  
 Line 7: server.host: "127.0.0.1"  
 Line 21: elasticsearch.url: "http://127.0.0.1:9200"  
@@ -400,6 +416,7 @@ Create user
 
 Edit config file  
 >$ sudo emacs /etc/nginx/sites-available/default  
+
 Replace  
 
 	server {
@@ -458,10 +475,11 @@ Configure Kibana for cowrie
 -----------------------------
 Create log directory  
 >$ sudo mkdir /var/log/kibana  
-($ sudo chown kibana:kibana /var/log/kibana)  
+>$ sudo chown kibana:kibana /var/log/kibana)  
 
 Edit config file  
 >$ sudo emacs /opt/kibana/config/kibana.yml  
+
 Line 18: server.name: "hunniPi"  
 Line 86: logging.dest: /var/log/kibana/kibana.log  
 Add line: tilemap.url: https://tiles.elastic.co/v2/default/{z}/{x}/{y}.png?elastic_tile_service_tos=agree&my_app_name=kibana  
@@ -480,6 +498,7 @@ Copy config
 
 Edit conf  
 >$ sudo emacs /etc/logstash/conf.d/logstash-cowrie.conf  
+
 Line 4: path => ["/home/cowrie/cowrie/var/log/cowrie/cowrie.json"]
 Line 49: database => "/usr/share/logstash/vendor/geoip/GeoLite2-City.mmdb"  
 Line 69: path => "/var/log/logstash/cowrie-logstash.log"  
@@ -492,6 +511,7 @@ Restart
 
 Test whether data is loaded into ElasticSearch  
 >$ curl 'http://localhost:9200/_search?q=cowrie&size=5'  
+
 If this gives output, your data is correctly loaded into ElasticSearch  
 
 List indexes  
@@ -516,7 +536,9 @@ Create links, etc
 
 Create startscript  
 ># curl https://data.gpo.zugaina.org/argent-main/net-analyzer/splunk/files/splunk.initd --output /etc/init.d/splunk  
+
 or
+
 ># emacs /etc/init.d/splunk  
 
 	#!/sbin/runscript
@@ -557,8 +579,10 @@ Install python requests
 
 Edit inputs  
 ># emacs /opt/splunk/etc/system/local/inputs.conf  
+
 Add line:  
-[tcp:9997]  
+
+	[tcp:9997]  
 
 Start and configure splunk  
 >$ cd /opt/splunk/bin  
