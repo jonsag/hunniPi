@@ -1,89 +1,92 @@
 ELK/Elasticsearch, logstash, kibana on gentoo     
 =============================     
 Shut down all instances of ELK and nginx on RPi     
-# sudo service elasticsearch stop       
-# sudo systemctl disable elasticsearch     
-# sudo service logstash stop         
-# sudo systemctl disable logstash     
-# sudo service kibana stop        
-# sudo systemctl disable kibana     
-# sudo service nginx stop      
-# sudo systemctl disable nginx     
+>\# sudo service elasticsearch stop       
+>\# sudo systemctl disable elasticsearch     
+>\# sudo service logstash stop         
+>\# sudo systemctl disable logstash     
+>\# sudo service kibana stop        
+>\# sudo systemctl disable kibana     
+>\# sudo service nginx stop      
+>\# sudo systemctl disable nginx     
      
 Verify java version     
-# java -version     
+>\# java -version     
+
 Should be at least 1.8     
      
 Elasticsearch     
 -----------------------------     
 Unmask     
-# echo '=app-misc/elasticsearch-6.4.3 ~amd64' >> /etc/portage/package.keywords/use.keywords     
+>\# echo '=app-misc/elasticsearch-6.4.3 ~amd64' >> /etc/portage/package.keywords/use.keywords     
      
 Install     
-# emerge -av app-misc/elasticsearch     
+>\# emerge -av app-misc/elasticsearch     
      
 Make sure you have proper permissions     
-# chown root:elasticsearch /etc/elasticsearch && chmod 2750 /etc/elasticsearch     
-# chown root:elasticsearch /etc/elasticsearch/elasticsearch.keystore && chmod 0660 /etc/elasticsearch/elasticsearch.keystore     
+>\# chown root:elasticsearch /etc/elasticsearch && chmod 2750 /etc/elasticsearch     
+>\# chown root:elasticsearch /etc/elasticsearch/elasticsearch.keystore && chmod 0660 /etc/elasticsearch/elasticsearch.keystore     
       
 Configure     
-# emacs /etc/elasticsearch/elasticsearch.yml       
-Line 17: cluster.name: <your name>       
+>\# emacs /etc/elasticsearch/elasticsearch.yml       
+
+Line 17: cluster.name: \<your name\>       
 Line 55: network.host: 127.0.0.1       
 Line 59: http.port: 9200      
      
 Start       
-# /etc/init.d/elasticsearch start       
+>\# /etc/init.d/elasticsearch start       
      
 Add to autostart       
-# rc-update add elasticsearch default     
+>\# rc-update add elasticsearch default     
      
 Logstash     
 -----------------------------     
 Unmask and mask     
-# echo '=app-admin/logstash-bin-6.4.3 ~amd64' >> /etc/portage/package.keywords/use.keywords     
+>\# echo '=app-admin/logstash-bin-6.4.3 ~amd64' >> /etc/portage/package.keywords/use.keywords     
      
 Install     
-# emerge -av app-admin/logstash-bin     
+>\# emerge -av app-admin/logstash-bin     
      
 Install plugin     
-# /opt/logstash/bin/logstash-plugin install logstash-input-beats     
+>\# /opt/logstash/bin/logstash-plugin install logstash-input-beats     
      
 Start       
-# /etc/init.d/logstash start       
+>\# /etc/init.d/logstash start       
      
 Add to autostart       
-# rc-update add logstash default     
+>\# rc-update add logstash default     
      
 Kibana     
 -----------------------------     
 Unmask and mask     
-# echo '=www-apps/kibana-bin-6.4.3 ~amd64' >> /etc/portage/package.keywords/use.keywords     
+>\# echo '=www-apps/kibana-bin-6.4.3 ~amd64' >> /etc/portage/package.keywords/use.keywords     
      
 Install     
-# emerge -av www-apps/kibana-bin     
+>\# emerge -av www-apps/kibana-bin     
      
 Configure     
-$ emacs /etc/kibana/kibana.yml       
+>$ emacs /etc/kibana/kibana.yml       
+
 Line 2: server.port: 5601       
 Line 7: server.host: "127.0.0.1"       
 Line 28: elasticsearch.url: "http://127.0.0.1:9200"     
      
 Start       
-# /etc/init.d/kibana start       
+>\# /etc/init.d/kibana start       
      
 Add to autostart       
-# rc-update add kibana default     
+>\# rc-update add kibana default     
      
 Nginx     
 -----------------------------     
 Install nginx     
      
 Create user       
-# htpasswd -c /etc/nginx/htpasswd.users kibana_admin     
+>\# htpasswd -c /etc/nginx/htpasswd.users kibana_admin     
      
 Edit config file       
-# emacs /etc/nginx/sites-available/default     
+>\# emacs /etc/nginx/sites-available/default     
 add:    
  
 	server {     
@@ -104,29 +107,31 @@ add:
 	}     
      
 Start       
-# /etc/init.d/nginx start       
+>\# /etc/init.d/nginx start       
      
 Add to autostart       
-# rc-update add nginx default     
+>\# rc-update add nginx default     
      
 Setup MaxMinds GeoIp databaSE     
-# wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz     
-# mkdir /opt/logstash/vendor/geoip       
-# gunzip GeoLite2-City.mmdb.gz     
-# mv GeoLite2-City.mmdb /opt/logstash/vendor/geoip/     
+>\# wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz     
+>\# mkdir /opt/logstash/vendor/geoip       
+>\# gunzip GeoLite2-City.mmdb.gz     
+>\# mv GeoLite2-City.mmdb /opt/logstash/vendor/geoip/     
      
      
 Configure kibana     
 -----------------------------     
-# emacs /etc/kibana/kibana.yml     
-Line 25: server.name: "<your server name>"       
+>\# emacs /etc/kibana/kibana.yml     
+
+Line 25: server.name: "\<your server name\>"       
 Line 96: logging.dest: /var/log/kibana/kibana.log       
 Add line: tilemap.url: https://tiles.elastic.co/v2/default/{z}/{x}/{y}.png?elastic_tile_service_tos=agree&my_app_name=kibana       
      
      
 Configure logstash     
 -----------------------------     
-# emacs /etc/logstash/conf.d/cowrie.conf     
+>\# emacs /etc/logstash/conf.d/cowrie.conf     
+
 add:   
   
 	input {
@@ -194,40 +199,40 @@ add:
 Install filebeat in Raspberry Pi     
 -----------------------------     
 Download and install Go     
-$ wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-armv6l.tar.gz     
+>$ wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-armv6l.tar.gz     
      
 Unpack     
-$ sudo tar -C /usr/local -xvzf go1.9.2.linux-armv6l.tar.gz     
+>$ sudo tar -C /usr/local -xvzf go1.9.2.linux-armv6l.tar.gz     
      
 Add to PATH and check version     
-$ export PATH=$PATH:/usr/local/go/bin     
-$ go version     
+>$ export PATH=$PATH:/usr/local/go/bin     
+>$ go version     
      
 Download and build filebeat     
-$ export GOPATH=$HOME/go     
-$ mkdir go     
-$ mkdir -p ${GOPATH}/src/github.com/elastic     
-$ cd ${GOPATH}/src/github.com/elastic     
+>$ export GOPATH=$HOME/go     
+>$ mkdir go     
+>$ mkdir -p ${GOPATH}/src/github.com/elastic     
+>$ cd ${GOPATH}/src/github.com/elastic     
      
-$ git clone https://github.com/elastic/beats.git     
-$ cd beats     
-$ git checkout 23b9e27     
-$ cd filebeat     
-$ make     
-$ make update     
+>$ git clone https://github.com/elastic/beats.git     
+>$ cd beats     
+>$ git checkout 23b9e27     
+>$ cd filebeat     
+>$ make     
+>$ make update     
      
 Finishing the installation     
-$ sudo mkdir /usr/share/filebeat /usr/share/filebeat/bin /etc/filebeat /var/log/filebeat /var/lib/filebeat     
-$ sudo mv filebeat /usr/share/filebeat/bin     
-$ sudo mv module /usr/share/filebeat/     
-$ sudo mv modules.d/ /etc/filebeat/     
-$ sudo cp filebeat.yml /etc/filebeat/     
-$ sudo chmod 750 /var/log/filebeat     
-$ sudo chmod 750 /etc/filebeat/     
-$ sudo chown -R root:root /usr/share/filebeat/*     
+>$ sudo mkdir /usr/share/filebeat /usr/share/filebeat/bin /etc/filebeat /var/log/filebeat /var/lib/filebeat     
+>$ sudo mv filebeat /usr/share/filebeat/bin     
+>$ sudo mv module /usr/share/filebeat/     
+>$ sudo mv modules.d/ /etc/filebeat/     
+>$ sudo cp filebeat.yml /etc/filebeat/     
+>$ sudo chmod 750 /var/log/filebeat     
+>$ sudo chmod 750 /etc/filebeat/     
+>$ sudo chown -R root:root /usr/share/filebeat/*     
      
-$ sudo emacs /lib/systemd/system/filebeat.service    
- 
+>$ sudo emacs /lib/systemd/system/filebeat.service    
+
 	[Unit]     
 	Description=filebeat     
 	Documentation=https://www.elastic.co/guide/en/beats/filebeat/current/index.html     
@@ -241,11 +246,11 @@ $ sudo emacs /lib/systemd/system/filebeat.service
 	[Install]     
 	WantedBy=multi-user.target     
 	     
-$ sudo systemctl enable filebeat.service     
-$ sudo service filebeat start     
+>$ sudo systemctl enable filebeat.service     
+>$ sudo service filebeat start     
      
 Setting filebeat up for cowrie     
-$ sudo emacs /etc/filebeat/filebeat.yml 
+>$ sudo emacs /etc/filebeat/filebeat.yml 
     
 	filebeat.modules:
 	
@@ -278,57 +283,58 @@ $ sudo emacs /etc/filebeat/filebeat.yml
 
 
 Edit config     
-$ sudo emacs /etc/filebeat/filebeat.yml     
+>$ sudo emacs /etc/filebeat/filebeat.yml     
+
 Line 5: /home/cowrie/cowrie/var/log/cowrie/cowrie.json*     
-Line 12: hosts: ["<IP of ELK server>:5045"]     
+Line 12: hosts: ["\<IP of ELK server\>:5045"]     
      
 Restart server     
-$ sudo service filebeat restart     
+>$ sudo service filebeat restart     
      
      
 Useful commands     
 -----------------------------     
 Check logstash config     
-#      
+>\#      
      
 Run logstash from cli     
-# /opt/logstash/bin/logstash -f /etc/logstash/conf.d/cowrie.conf --log.level debug     
+>\# /opt/logstash/bin/logstash -f /etc/logstash/conf.d/cowrie.conf --log.level debug     
      
 Test filebeat config     
-$ sudo /usr/share/filebeat/bin/filebeat test config -c /etc/filebeat/filebeat.yml     
+>$ sudo /usr/share/filebeat/bin/filebeat test config -c /etc/filebeat/filebeat.yml     
      
 Check interesting ports     
-# nmap 192.168.10.6 -p 80,81,5044,5045,5601,8080,8088,9200 -sS     
+>\# nmap 192.168.10.6 -p 80,81,5044,5045,5601,8080,8088,9200 -sS     
      
 Telnet to logstash     
-$ telnet 192.168.10.6 5044     
+>$ telnet 192.168.10.6 5044     
      
 Test whether data is loaded into ElasticSearch       
-$ curl 'http://localhost:9200/_search?q=cowrie&size=5'     
+>$ curl 'http://localhost:9200/_search?q=cowrie&size=5'     
      
 Check cluster health     
-$ curl -XGET 'localhost:9200/_cluster/health?pretty'     
+>$ curl -XGET 'localhost:9200/_cluster/health?pretty'     
      
 List indexes       
-$ curl 'http://localhost:9200/_cat/indices?v'     
+>$ curl 'http://localhost:9200/_cat/indices?v'     
      
 Create an index called 'test'     
-$ curl -XPUT 'localhost:9200/test'     
+>$ curl -XPUT 'localhost:9200/test'     
      
 Get info on index     
-$ curl -XGET 'localhost:9200/test?pretty'     
+>$ curl -XGET 'localhost:9200/test?pretty'     
      
 Delete index 'test'     
-$ curl -XDELETE localhost:9200/test     
+>$ curl -XDELETE localhost:9200/test     
      
 Delete all indexes, DANGEROUS     
-$ curl -X DELETE 'http://localhost:9200/_all'     
+>$ curl -X DELETE 'http://localhost:9200/_all'     
      
 Add data manually     
-$ for JSON in cowrie/*.*; do ./bulk_index.sh $JSON; done     
+>$ for JSON in cowrie/*.*; do ./bulk_index.sh $JSON; done     
      
 Restart everything     
-# /etc/init.d/elasticsearch restart && /etc/init.d/logstash restart && /etc/init.d/kibana restart && /etc/init.d/nginx restart     
+>\# /etc/init.d/elasticsearch restart && /etc/init.d/logstash restart && /etc/init.d/kibana restart && /etc/init.d/nginx restart     
      
      
      
