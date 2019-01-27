@@ -34,7 +34,7 @@ Remove SD-card and insert it a Rpi connected to your local network and boot it u
 Rpi configuration
 -----------------------------
 Connect to Rpi via ssh 
->$ ssh 1<IP> -u pi
+>$ ssh \<IP\> -u pi
 Login with user: pi and password:raspberry 
 
 Update  
@@ -151,7 +151,7 @@ Add before line 'exit 0':
 Testing
 -----------------------------
 From another computer  
->$ sudo nmap <IP> -p 22,23,2222,2223,9022 -sS  
+>$ sudo nmap \<IP\> -p 22,23,2222,2223,9022 -sS  
 
 On honey pot:  
 >$ tail -f /home/cowrie/cowrie/var/log/cowrie/cowrie.log  
@@ -255,7 +255,7 @@ Uncomment lines 569-576
 Line 570: enabled = true  
 Line 572: database = cowriedb  
 Line 573: username = cowrieuser  
-Line 574: password = <cowrie db pass>  
+Line 574: password = \<cowrie db pass\>  
 
 >$ pip install mysql mysql-python  
 
@@ -285,14 +285,14 @@ Configure
 >$ sudo emacs config.php
   
 Line 23: define('DB_USER', 'cowrieuser');  
-Line 24: define('DB_PASS', '<cowrie db pass>');  
+Line 24: define('DB_PASS', '\<cowrie db pass\>');  
 Line 25: define('DB_NAME', 'cowriedb');  
 
 Set owner  
 >$ sudo chown www-data:www-data -R /var/www  
 
 Now visit kippo-graph at:  
-http://<IP>/kippo-graph  
+http://\<IP\>/kippo-graph  
 
 
 Yet another log viewer - ELK/Elasticsearch, logstash, kibana 
@@ -469,7 +469,7 @@ Add to autostart
 >$ sudo systemctl enable nginx  
 
 Now visit your new Kibana at:  
-http://<IP>:8080  
+http://\<IP\>:8080  
 
 Configure Kibana for cowrie
 -----------------------------
@@ -593,7 +593,7 @@ Enter admin user name: splunkadmin
 Enter passsword twice  
 
 Go to the link at end of text  
-http://<IP>:8080  
+http://\<IP\>:8080  
 Log in with user/pass from installation  
 Click 'Settings'->'Forwarding and receiving'->'Configure receiving' + Add new  
 Type in port '9997'  and click 'Save'  
@@ -619,7 +619,7 @@ Add user name: splunkadmin
 State password twice  
 
 Configure the indexer that the forwarder will send its data to  
->$ sudo /opt/splunkforwarder/bin/splunk add forward-server <IP>:9997 -auth splunkadmin:<PASSWORD>  
+>$ sudo /opt/splunkforwarder/bin/splunk add forward-server \<IP\>:9997 -auth splunkadmin:\<PASSWORD\>  
 
 Add data to consume  
 >$ sudo /opt/splunkforwarder/bin/splunk add monitor /home/cowrie/cowrie/var/log/cowrie/cowrie.log -sourcetype linux_logs -index cowrie  
