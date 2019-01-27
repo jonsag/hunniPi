@@ -52,6 +52,7 @@ Configure
 4 T4	Set wifi country  
 7 A1	Expand file system to use whole SD-card  
 7 A3	Set memory split to 16  
+
 Reboot to set new options 
 
 
@@ -121,7 +122,6 @@ Line 29: Change hostname = srv04 to some other name
 Line 168: Comment out auth_class = UserDB  
 Line 175-176: Remove comment from both lies, enabling random access  
 Line 430: Telnet, change enabled = false to true  
-Save and exit editor    
 
 Start cowrie server  
 >$ bin/cowrie start  
@@ -187,7 +187,7 @@ Add cowrie service
 >$ sudo cp /home/cowrie/cowrie/docs/systemd/etc/systemd/system/cowrie.service /etc/systemd/system/  
 
 Start service  
->$ $ sudo service cowrie start  
+>$ sudo service cowrie start  
 
 Add to autostart  
 >$ sudo systemctl enable cowrie
@@ -257,7 +257,7 @@ Line 572: database = cowriedb
 Line 573: username = cowrieuser  
 Line 574: password = <cowrie db pass>  
 
-pip install mysql mysql-python  
+>$ pip install mysql mysql-python  
 
 Now restart cowrie with logging to mysql  
 >$ sudo su cowrie -c '/home/cowrie/cowrie/bin/cowrie start'  
@@ -524,22 +524,22 @@ To check that all services are running
 Installing splunk log analyzer on server
 =============================
 On the splunk server:  
-># wget -O splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=7.2.3&product=splunk&filename=splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz&wget=true'  
-># tar xvzf splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz -C /opt  
+>\# wget -O splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=7.2.3&product=splunk&filename=splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz&wget=true'  
+>\# tar xvzf splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz -C /opt  
 
 Create links, etc  
-># ln -s /opt/splunk/etc /etc/splunk  
-># ln -s /opt/splunk/var/log/splunk /var/log/splunk  
-># ln -s /opt/splunk/var/run/splunk /var/run/splunk  
-># ln -s /opt/splunk/var/spool/splunk /var/spool/splunk  
-># ln -s /opt/splunk/bin/splunk /usr/bin/splunk  
+>\# ln -s /opt/splunk/etc /etc/splunk  
+>\# ln -s /opt/splunk/var/log/splunk /var/log/splunk  
+>\# ln -s /opt/splunk/var/run/splunk /var/run/splunk  
+>\# ln -s /opt/splunk/var/spool/splunk /var/spool/splunk  
+>\# ln -s /opt/splunk/bin/splunk /usr/bin/splunk  
 
 Create startscript  
-># curl https://data.gpo.zugaina.org/argent-main/net-analyzer/splunk/files/splunk.initd --output /etc/init.d/splunk  
+>\# curl https://data.gpo.zugaina.org/argent-main/net-analyzer/splunk/files/splunk.initd --output /etc/init.d/splunk  
 
 or
 
-># emacs /etc/init.d/splunk  
+>\# emacs /etc/init.d/splunk  
 
 	#!/sbin/runscript
 	# Copyright 1999-2012 Gentoo Foundation
@@ -562,10 +562,10 @@ or
 	}
 
 Make executable  
-># chmod 755 /etc/init.d/splunk  
+>\# chmod 755 /etc/init.d/splunk  
 
 Add as service  
-># rc-update add splunk    
+>\# rc-update add splunk    
 
 Create an account on virustotal.com  
 Find your API-key on yot community profile  
@@ -573,12 +573,12 @@ Add the key to line 11 in:
 /opt/splunk/etc/apps/tango/bin/vt.py  
 
 Install python requests  
-># cd ~/src  
-># git clone https://github.com/kennethreitz/requests/  
-># cp -R requests/requests /opt/splunk/etc/apps/tango/bin/    
+>\# cd ~/src  
+>\# git clone https://github.com/kennethreitz/requests/  
+>\# cp -R requests/requests /opt/splunk/etc/apps/tango/bin/    
 
 Edit inputs  
-># emacs /opt/splunk/etc/system/local/inputs.conf  
+>\# emacs /opt/splunk/etc/system/local/inputs.conf  
 
 Add line:  
 
