@@ -1,5 +1,5 @@
-filebeat on ubuntu     
-=============================     
+# filebeat on ubuntu     
+
 Add the Beats repository     
 >$ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -     
      
