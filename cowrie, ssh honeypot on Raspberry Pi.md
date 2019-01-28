@@ -29,8 +29,6 @@ Check that port look allright
 
 Installing cowrie, ssh honeypot
 -----------------------------
-Following TAKHION's tutorial at https://null-byte.wonderhowto.com/how-to/use-cowrie-ssh-honeypot-catch-attackers-your-network-0181600/  
-
 Create cowrie user  
 >$ sudo adduser --disabled-password cowrie  
 
