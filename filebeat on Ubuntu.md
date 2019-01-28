@@ -1,6 +1,7 @@
 # filebeat on ubuntu     
 
 Add the Beats repository     
+>$ cd ~/  
 >$ wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -     
      
 Install the apt-transport-https package     

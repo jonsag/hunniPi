@@ -3,6 +3,7 @@
 Install filebeat       
 -----------------------------     
 Download and install Go     
+>$ cd ~/  
 >$ wget https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-armv6l.tar.gz     
      
 Unpack     

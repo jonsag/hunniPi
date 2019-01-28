@@ -1,6 +1,7 @@
 # splunk, log analyzer on separate server  
 
 On the splunk server:  
+>$ cd ~/  
 >\# wget -O splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz 'https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=7.2.3&product=splunk&filename=splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz&wget=true'  
 >\# tar xvzf splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz -C /opt  
 

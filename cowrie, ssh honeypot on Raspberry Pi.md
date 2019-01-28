@@ -36,6 +36,7 @@ Log in as new user
 >$ sudo su - cowrie  
 
 Clone cowrie repository  
+>$ cd ~/  
 >$ git clone https://github.com/micheloosterhof/cowrie
 
 Move into cowrie directory  
@@ -179,7 +180,7 @@ In mysql:
 >$ cd /home/cowrie/cowrie    
 >$ sudo mysql -u cowrieuser -p cowriedb    
 
->mysql> source ./docs/sql/mysql.sql;  
+>mysql> source /home/cowrie/cowrie/docs/sql/mysql.sql;  
 >mysql> exit  
 
 Halt cowrie  
@@ -284,11 +285,13 @@ Add to autostart
 Logstash
 -----------------------------
 Download and install  
+>$ cd ~/  
 >$ wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.2.deb  
 >$ sudo dpkg -i logstash-5.5.2.deb  
 
 Setup the JFFI code for our ARM chip
 >$ sudo apt-get install ant zip  
+>$ cd ~/  
 >$ sudo git clone https://github.com/jnr/jffi.git  
 >$ cd jffi  
 >$ sudo ant jar  
@@ -432,7 +435,8 @@ Line 18: server.name: "hunniPi"
 Line 86: logging.dest: /var/log/kibana/kibana.log  
 Add line: tilemap.url: https://tiles.elastic.co/v2/default/{z}/{x}/{y}.png?elastic_tile_service_tos=agree&my_app_name=kibana  
 
-Download GeoIP data and extract  
+Download GeoIP data and extract
+>$ cd ~/    
 >$ wget http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz  
 >$ gunzip GeoLite2-City.mmdb.gz  
 
