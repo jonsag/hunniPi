@@ -38,6 +38,7 @@ Configure, compile and install nagios core
 Optional installs  
 Install the Exfoliation theme for the Nagios web interface  
 >$ sudo make install-exfoliation  
+
 Install the classic theme for the Nagios web interface  
 >$ sudo make install-classicui  
 
@@ -61,6 +62,7 @@ Add nagios to autostart
 
 Restart apache  
 >$ sudo service apache2 restart  
+
 Now you can visit http://\<IP\>/nagios
 
 Create dir for log files  
@@ -81,6 +83,7 @@ objects/localhost.cfg -> definitions for monitoring the local host
 
 Add line to nagios.cfg  
 >$ emacs /etc/nagios/nagios.cfg  
+
 Add:  
 	cfg_dir=/usr/local/nagios/etc/routers  
 
