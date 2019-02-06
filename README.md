@@ -2,6 +2,7 @@
 
 A tutorial and perhaps a script to get some honeypots running on Raspberry Pi
 
+
 Work order
 =============================
 
@@ -26,6 +27,7 @@ snare, web honeypot
 Install snare on Raspberry Pi  
 https://github.com/jonsag/hunniPi/blob/master/snare%2C%20web%20honeypot%20on%20Raspberry%20Pi.md  
 
+
 Credits
 =============================
 TAKHION: https://null-byte.wonderhowto.com/how-to/use-cowrie-ssh-honeypot-catch-attackers-your-network-0181600/  
@@ -41,6 +43,18 @@ Hay Turla: https://resources.infosecinstitute.com/glastopf-pi-a-simple-yet-cool-
 Habilis: https://habilisbest.com/install-redis-on-your-raspberrypi  
 Ryan Gordon: https://blog.hypriot.com/getting-started-with-docker-on-your-arm-device/  
 Tyler: https://howchoo.com/g/nmrlzmq1ymn/how-to-install-docker-on-your-raspberry-pi  
+Sean Mancini: https://www.seanmancini.com/2018/02/check-snare-web-application-honey-pot-successor-glastopf/  
+yerry pi: http://droidtoo.blogspot.com/2013/05/setting-up-dionaea-on-raspberry-pi.html  
+REal0day: https://0x00sec.org/t/run-the-trap-how-to-setup-your-own-honeypot-to-collect-malware-samples/7445  
+
+
+Check your honepot
+=============================
+
+Scan interesting ports
+-----------------------------  
+>$ sudo nmap 192.168.10.48 -p 22,23,80,81,2222,2223,5044,5045,5601,8080,8088,8090,8091,8092,9200,22222 -sS  
+
 
 
 

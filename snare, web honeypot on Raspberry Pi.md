@@ -22,6 +22,8 @@ Setup
 
 Clone a web page  
 >$ sudo clone --target http://example.com  
+or  
+>$ sudo clone --target http://trulyrandom.tk  
 
 Run snare  
 >$ sudo snare --port 8080 --page-dir example.com --host-ip 0.0.0.0  
@@ -30,6 +32,8 @@ File locations:
 Config file: /home/pi/snare/docs/conf.py  
 Debug log file: /opt/snare/snare.log  
 Error log: /opt/snare/snare.err  
+Pages location: /opt/snare/pages  
+
 
 tanner, data analysis served by snare events  
 =============================
