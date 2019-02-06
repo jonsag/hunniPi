@@ -85,11 +85,12 @@ Add line to nagios.cfg
 >$ emacs /etc/nagios/nagios.cfg  
 
 Add:  
-	cfg_dir=/usr/local/nagios/etc/routers  
+
+	cfg_dir=/usr/local/nagios/etc/myconfigs 
 
 My own configuration files  
-objects/hostgroups.cfg  
-objects/servicedefinitions.cfg  
+myconfigs/hostgroups.cfg  
+myconfigs/servicedefinitions.cfg  
 
 
 
