@@ -129,8 +129,8 @@ Edit new config file
 
 Add:  
 
-	command[check_/dev/mmcblk0p1]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/dev/mmcblk0p1  
-	command[check_/dev/mmcblk0p2]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/dev/mmcblk0p2  
+	command[check_mmcblk0p1]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/mmcblk0p1  
+	command[check_mmcblk0p2]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/mmcblk0p2  
 	
 Start service  
 >$ sudo service nrpe start  
