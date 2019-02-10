@@ -154,23 +154,31 @@ Create symbolic links to configs for comfort
 Checks are located at  
 /usr/local/nagios/libexec/  
 
-Configuration files
-objects/commands.cfg ->  
-objects/contacts.cfg ->  
-objects/timeperiods.cfg ->  
-objects/templates.cfg ->  
-objects/localhost.cfg -> definitions for monitoring the local host  
+Configuration files in /usr/local/nagios/etc/objects
+-----------------------------  
+commands.cfg ->  
+contacts.cfg ->  
+timeperiods.cfg ->  
+templates.cfg ->  
+localhost.cfg -> definitions for monitoring the local host  
 
-Add line to nagios.cfg  
+Add own configuration files  
+-----------------------------  
+
+Edit nagios.cfg  
 >$ emacs /etc/nagios/nagios.cfg  
 
 Add:  
 
 	cfg_dir=/usr/local/nagios/etc/myconfigs 
 
-My own configuration files  
-myconfigs/hostgroups.cfg  
-myconfigs/servicedefinitions.cfg  
+My own configuration files in /usr/local/nagios/etc/myconfigs   
+-----------------------------  
+hostgroups.cfg  
+hosts.cfg  
+mycommands.cfg  
+myservicedefinitions.cfg  
+servicedefinitions.cfg  
 
 
 Misc plugins installation and configuration  
@@ -187,16 +195,86 @@ On client
 >$ sudo chown nagios:nagios /usr/local/nagios/libexec/check_cpu_stats.sh  
 >$ sudo chmod a+x /usr/local/nagios/libexec/check_cpu_stats.sh  
 
+TBA  
+
 On server  
 -----------------------------  
-
+TBA  
 
 nagisk.pl  
 =============================
 
+On client  
+-----------------------------  
+
+>$ wget https://github.com/nicolargo/nagisk/raw/master/nagisk.pl -O /usr/local/nagios/libexec/nagisk.pl  
+>$ sudo chown nagios:nagios /usr/local/nagios/libexec/nagisk.pl  
+>$ sudo chmod a+x /usr/local/nagios/libexec/nagisk.pl  
+
+Edit config file  
+>$ emacs /usr/local/nagios/etc/mynrpe.cfg  
+
+Add: 
+
+	command [check_asterisk_version]=/usr/local/nagios/libexec/nagisk.pl -c version  
+	command [check_asterisk_peers]=/usr/local/nagios/libexec/nagisk.pl -c peers  
+	command [check_asterisk_channels]=/usr/local/nagios/libexec/nagisk.pl -c channels  
+	command [check_asterisk_zaptel]=/usr/local/nagios/libexec/nagisk.pl -c zaptel  
+	command [check_asterisk_span]=/usr/local/nagios/libexec/nagisk.pl -c span -s 1  
+
+On server  
+-----------------------------
+
+Edit config file  
+>$ emacs myservicedefinitions.cfg
+
+	define service { 
+	use generic-Service 
+	host_name raspbx 
+	service_description Check SIP 
+	servicegroups sip 
+	check_command check_nrpe! check_asterisk_version 
+	}
+	
+	define service { 
+	use generic-service 
+	host_name raspbx 
+	service_description Check SIP peers 
+	servicegroup sip 
+	check_command check_nrpe! check_asterisk_peers 
+	}
+	
+	define service { 
+	use generic-service 
+	host_name raspbx 
+	service_description check SIP channels 
+	servicegroup sip 
+	check_command check_nrpe! check_asterisk_channels 
+	}
+	
+	define service { 
+	use generic-service 
+	host_name raspbx 
+	service_description Check Zaptel card 
+	servicegroup sip 
+	check_command check_nrpe! check_asterisk_zaptel 
+	}
+	
+	define service { 
+	use generic-service 
+	host_name sip 
+	service_description Check Zaptel Span 1 
+	servicegroups raspbx 
+	check_command check_nrpe! check_asterisk_span 
+	}
 
 
+Commands
+=============================
 
+$USER1$ = /usr/local/nagios/libexec/  
+
+check_http -I $HOSTADDRESS$ $ARG1$  
 
 
 
