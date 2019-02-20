@@ -7,6 +7,9 @@ Install and configure CUPS
 -----------------------------
 >$ sudo apt-get install cups  
 
+Remove unwanted install  
+>$ sudo apt-get remove printer-driver-gutenprint  
+
 Add lpadmin group to pi  
 >$ sudo usermod -a -G lpadmin pi  
 
@@ -48,6 +51,7 @@ Add Brother DCP-770CW printer
 
 LPR printer driver   
 =============================  
+
 Install prequisites  
 >$ sudo apt-get install lib32stdc++  
 
@@ -137,5 +141,51 @@ Click 'Modify Printer'
 
 Now you can do a test print, in web interface:  
 Click 'Maintenance'->'Print Test Page'  
+
+Add printer as default destination  
+>$ lpadmin -d Brother_DCP-770CW  
+
+
+Use Driver Install Tool  
+============================= 
+
+Download and unpack installer  
+>$ cd ~  
+>$ wget https://download.brother.com/welcome/dlf006893/linux-brprinter-installer-2.2.1-1.gz  
+>$ gunzip linux-brprinter-installer-2.2.1-1.gz  
+
+Run installer
+>$ sudo bash linux-brprinter-installer-2.2.1-1 DCP-770CW  
+
+You are going to install following packages.  
+OK? [y/N] ->  
+Answer 'y'  
+
+Will you specify the Device URI? [Y/n] ->  
+Answer 'y'  
+
+select the number of destination Device URI. ->   
+Answer with the number for 'dnssd://Brother%20DCP-770CW._pdl-datastream._tcp.local/'   
+ enter IP address ->  
+Enter your printers IP  
+
+You can skip the rest  
+It's for installing scanner software  
+
+
+
+sudo cupsctl --debug-logging
+sudo cupsctl --no-debug-logging
+sudo service cups restart
+
+dnssd://Brother%20DCP-770CW._pdl-datastream._tcp.local/
+socket://192.168.10.30:9100
+ipp://192.168.10.30:515/binary_p1
+ipp://hunnipi.local:631/printers/Brother_DCP-770CW
+lpd://192.168.10.30/binary_p1
+
+
+
+
 
 
