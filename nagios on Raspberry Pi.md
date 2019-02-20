@@ -72,23 +72,15 @@ Now you can visit http://\<IP\>/nagios
 NRPE - Nagios Remote Plugin Executor
 =============================
 
+On server  
+-----------------------------  
 >$ cd ~  
 >$ wget https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-3.2.1/nrpe-3.2.1.tar.gz  
->$ wget http://www.nagios-plugins.org/download/nagios-plugins-2.2.1.tar.gz  
-
->$ tar zxvf nrpe-3.2.1.tar.gz  
->$ tar zxvf nagios-plugins-2.2.1.tar.gz  
-
+>$ tar zxvf nrpe-3.2.1.tar.gz    
 >$ cd nrpe-3.2.1  
 >$ ./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/arm-linux-gnueabihf  
 >$ make check_nrpe  
 >$ sudo make install-plugin  
->$ sudo make install-config    
-
->$ cd ~/nagios-plugins-2.2.1  
->$ ./configure --with-nagios-user=nagios --with-nagios-group=nagios  
->$ make  
->$ make install 
 
 On client  
 -----------------------------  
@@ -105,13 +97,19 @@ Install prerequisites
 Download, configure and install    
 >$ cd ~  
 >$ wget https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-3.2.1/nrpe-3.2.1.tar.gz  
+>$ wget http://www.nagios-plugins.org/download/nagios-plugins-2.2.1.tar.gz  
 >$ tar zxvf nrpe-3.2.1.tar.gz  
+>$ tar zxvf nagios-plugins-2.2.1.tar.gz  
 >$ cd nrpe-3.2.1  
 >$ ./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/arm-linux-gnueabihf  
 >$ make nrpe  
 >$ sudo make install-daemon  
 >$ sudo make install-config  
 >$ sudo make install-init  
+>$ cd ~/nagios-plugins-2.2.1  
+>$ ./configure --with-nagios-user=nagios --with-nagios-group=nagios  
+>$ make  
+>$ sudo make install  
 
 Edit configuration file  
 >$ sudo emacs /usr/local/nagios/etc/nrpe.cfg  
@@ -275,7 +273,15 @@ Commands
 $USER1$ = /usr/local/nagios/libexec/  
 
 check_http -I $HOSTADDRESS$ $ARG1$  
+check_http  
 
+check_nrpe -H \<host\> -c \<command\>  
+check_nrpe!check_load  
+check_nrpe!check_users  
+check_nrpe!check_total_procs  
+check_nrpe!check_zombie_procs  
+check_nrpe!check_mmcblk0p1  
+check_nrpe!check_mmcblk0p2  
 
 
 
