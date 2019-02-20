@@ -50,7 +50,7 @@ Add Brother DCP-770CW printer
 =============================  
 
 LPR printer driver   
-=============================  
+-----------------------------
 
 Install prequisites  
 >$ sudo apt-get install lib32stdc++  
@@ -78,7 +78,7 @@ to
 	:rp=lp\
 	
 CUPSwrapper printer driver
-=============================  
+-----------------------------
 First install LPR printer driver as above  
 
 Download deb package  
@@ -146,7 +146,7 @@ Add printer as default destination
 >$ lpadmin -d Brother_DCP-770CW  
 
 
-Use Driver Install Tool  
+Alternative method - Use Driver Install Tool  
 ============================= 
 
 Download and unpack installer  
@@ -173,6 +173,8 @@ You can skip the rest
 It's for installing scanner software  
 
 
+Nothing below this line  
+============================= 
 
 sudo cupsctl --debug-logging
 sudo cupsctl --no-debug-logging
