@@ -98,8 +98,8 @@ Click 'Administration'
 Click 'Add printer' button. Enter username/password for pi if needed
 Mark 'Other Network Printers:' 'LPD/LPR Host or Printer' and click 'Continue'  
 In 'Connection:' add 'lpd://\<Your printer's IP address\>/binary_p1' and click 'Continue'  
-Enter name, description and so on. Connection should be 'lpd://192.168.10.30/binary_p1'  
-Mark 'Share' and click 'Continue'
+Enter name, description and so on  
+Mark 'Share' and click 'Continue'  
 Set 'Make'->'Model' accordingly  
 Click 'Add Printer'  
 Click 'Set Default Options'  
