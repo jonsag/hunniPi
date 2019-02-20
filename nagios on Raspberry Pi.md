@@ -116,7 +116,7 @@ Edit configuration file
 
 Add IP for machine running nagios server to line 106  
 
-	allowed_hosts=\<IP\>,127.0.0.1,::1  
+	allowed_hosts=<IP>,127.0.0.1,::1  
 
 Add line (353):  
 

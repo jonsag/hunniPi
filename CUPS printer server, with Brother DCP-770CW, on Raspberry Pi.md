@@ -74,7 +74,7 @@ Edit line 5, change from
 	
 to  
 
-	:rm=\<IP of printer\>\
+	:rm=<IP of printer>\
 	:rp=lp\
 	
 CUPSwrapper printer driver
