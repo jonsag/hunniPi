@@ -86,7 +86,7 @@ On client
 -----------------------------  
 Make sure you are running version >3  
 
-Install nrpe client on Raspberry Pi  
+Install nrpe client on Raspberry Pi running raspbian stretch  
 -----------------------------  
 Create user  
 >$ sudo useradd -m -s /bin/false nagios  
@@ -124,6 +124,106 @@ Add line (353):
 	
 Edit new config file  
 >$ sudo emacs include=/usr/local/nagios/etc/mynrpe.cfg  
+
+Add:  
+
+	command[check_mmcblk0p1]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/mmcblk0p1  
+	command[check_mmcblk0p2]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /dev/mmcblk0p2  
+	
+Start service  
+>$ sudo service nrpe start  
+
+Add to autostart  
+>$ sudo systemctl enable nrpe  
+
+
+Install nrpe client on Ubuntu 18.04 LTS  
+----------------------------- 
+Install
+>$ sudo apt-get install nagios-nrpe-server nagios-plugins  
+
+Edit config  
+>$ sudo emacs /etc/nagios/nrpe.cfg  
+
+Add IP series to allowed hosts on line 106  
+
+	allowed_hosts=/<IP subnet/>.0/24,127.0.0.1,::1
+	
+Add line (375):  
+
+	include=/etc/nagios/mynrpe.cfg  
+	
+Edit new config file  
+>$ sudo emacs /etc/nagios/mynrpe.cfg  
+
+Add:  
+
+	command[check_sda6]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/sda6
+	command[check_sda5]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/sda5
+
+	command[check_io1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /home/jon/mnt/usb/io1
+	command[check_hg1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /home/jon/mnt/usb/hg1
+	command[check_sg1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /home/jon/mnt/usb/sg1
+	command[check_sg2]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /home/jon/mnt/usb/sg2
+	command[check_wd1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /home/jon/mnt/usb/wd1
+
+Restart nrpe server  
+>$ sudo service nagios-nrpe-server restart  
+
+On nagios server  
+>$ sudo emacs myconfigs/myservicedefinitions.cfg  
+
+Add:  
+
+	# monitor the free drive space on /dev/sda6
+	define service{
+	       use                     generic-service
+	       host_name               amd64-4400
+	       service_description     / - /dev/sda6 Free Space
+	       check_command           check_nrpe!check_sda6
+	}
+
+for sda6, sda5, io1 etc.  
+
+
+Install nrpe client on pine64 running ubuntu with mate desktop  !!! Not working at the moment!!!  
+-----------------------------  
+Create user  
+>$ sudo useradd -m -s /bin/false nagios  
+
+Install prerequisites  
+>$ sudo apt-get install libssl-dev  
+
+Download, configure and install    
+>$ cd ~  
+>$ wget https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-3.2.1/nrpe-3.2.1.tar.gz  
+>$ wget http://www.nagios-plugins.org/download/nagios-plugins-2.2.1.tar.gz  
+>$ tar zxvf nrpe-3.2.1.tar.gz  
+>$ tar zxvf nagios-plugins-2.2.1.tar.gz  
+>$ cd nrpe-3.2.1  
+>$ ./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/aarch64-linux-gnu/  
+>$ make nrpe  
+>$ sudo make install-daemon  
+>$ sudo make install-config  
+>$ sudo make install-init  
+>$ cd ~/nagios-plugins-2.2.1  
+>$ ./configure --with-nagios-user=nagios --with-nagios-group=nagios  
+>$ sudo make install
+>$ sudo make install  
+
+Edit configuration file  
+>$ sudo emacs /usr/local/nagios/etc/nrpe.cfg  
+
+Add IP for machine running nagios server to line 106  
+
+	allowed_hosts=<IP>,127.0.0.1,::1  
+
+Add line (353):  
+
+	include=/usr/local/nagios/etc/mynrpe.cfg  
+	
+Edit new config file  
+>$ sudo emacs /usr/local/nagios/etc/mynrpe.cfg  
 
 Add:  
 
@@ -270,6 +370,7 @@ Edit config file
 Commands
 =============================
 
+Path to binaries  
 $USER1$ = /usr/local/nagios/libexec/  
 
 check_http -I $HOSTADDRESS$ $ARG1$  
